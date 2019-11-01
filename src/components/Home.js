@@ -5,8 +5,8 @@ import { Jumbotron, Container } from "react-bootstrap";
 class Home extends Component {
   render() {
     return (
-      <div>
-        <Jumbotron fluid>
+      <div className="overlay">
+        <Jumbotron fluid className="jumbo">
           <Container>
             <h1 className="display-4">Welcome to, Photos and Camera!</h1>
             <p className="lead">

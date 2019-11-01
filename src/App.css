@@ -20,6 +20,12 @@ nav {
   max-width: 100%;
 }
 
+a {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: transparent;
+}
+
 .nav-links {
   width: 100%;
   display: flex;
@@ -27,13 +33,7 @@ nav {
   list-style: none;
   padding-left: 50%;
   margin-bottom: 0;
-}
-
-.jumbotron {
-  margin-top: 3rem;
-  margin-bottom: -1rem;
-  margin-left: -1rem;
-  margin-right: -1rem;
+  color: black;
 }
 
 /* forms */
@@ -66,7 +66,7 @@ nav {
   font-weight: 400;
   line-height: 1.5;
   color: #ffffff;
-  background-color: #4b4949;
+  background: none;
   background-clip: padding-box;
   border: 1px solid #000000;
   border-radius: 8px;
@@ -76,4 +76,31 @@ nav {
 .signup {
   color: white;
   margin-top: 100px;
+}
+
+/* jumbotron */
+
+.jumbo {
+  background: url("https://images.unsplash.com/photo-1572512484487-5a471e8986af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=60")
+    no-repeat fixed bottom;
+  background-size: cover;
+  color: white;
+  height: 330px;
+  position: relative;
+  z-index: -2;
+  margin-top: 10rem;
+  margin-bottom: -1rem;
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
+.overlay {
+  background-color: #4b4949;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
 }

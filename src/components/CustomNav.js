@@ -1,67 +1,36 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
+// import { LinkContainer } from "react-router-bootstrap";
 
-class CustomNav extends Component {
+export default class CustomNav extends Component {
   render() {
-    const navStyle = {
-      color: "black"
-    };
     return (
       <div>
-        <nav className="navbar navbar-expand-lg navbar-light">
-          <h1>LOGO</h1>
-          <ul className="nav-links">
-            <Link style={navStyle} to="/">
-              <li>Home</li>
-            </Link>
-            <Link style={navStyle} to="/profile">
-              <li>Profile</li>
-            </Link>
-            <Link style={navStyle} to="/signup">
-              <li>Sign Up</li>
-            </Link>
-            <Link style={navStyle} to="/login">
-              <li>Login</li>
-            </Link>
-          </ul>
-        </nav>
+        <Navbar collapseOnSelect>
+          <Navbar.Brand>
+            <Link to="/">Photo and Camera</Link>
+          </Navbar.Brand>
+          <Navbar.Toggle />
+          <Navbar.Collapse>
+            <Nav className="nav-links">
+              <Link to="/">
+                <NavItem>Home</NavItem>
+              </Link>
+              <Link to="/profile">
+                <NavItem>Profile</NavItem>
+              </Link>
+              <Link to="/login">
+                <NavItem>Login</NavItem>
+              </Link>
+              <Link to="/signup">
+                <NavItem>Sign Up</NavItem>
+              </Link>
+            </Nav>
+            <Navbar.Toggle />
+          </Navbar.Collapse>
+        </Navbar>
       </div>
     );
   }
 }
-
-export default CustomNav;
-// <div className="container">
-
-//   <Navbar default collapseOnSelect>
-//   <Navbar.Header>
-//     <Navbar.Brand>
-//       <Link to="/">PhotoandCamera</Link>
-//     </Navbar.Brand>
-//     <Navbar.Toggle />
-//   </Navbar.Header>
-//   <Navbar.Collapse>
-//     <Nav pullRight>
-//       <NavItem eventKey={1} componentClass={Link} href="/" to="/">
-//         Home
-//       </NavItem>
-//       <NavItem
-//         eventKey={2}
-//         componentClass={Link}
-//         href="/profile"
-//         to="/profile"
-//       >
-//         Profile
-//       </NavItem>
-//       <NavItem
-//         eventKey={3}
-//         componentClass={Link}
-//         href="/signup"
-//         to="/singup"
-//       >
-//         Sign Up
-//       </NavItem>
-//     </Nav>
-//   </Navbar.Collapse>
-// </Navbar>

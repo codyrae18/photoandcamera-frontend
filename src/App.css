@@ -20,10 +20,23 @@ nav {
   max-width: 100%;
 }
 
+.home-container {
+  padding-top: 50px;
+  padding-right: 0px;
+  padding-left: 0px;
+  max-width: 100%;
+}
+
 a {
   color: #ffffff;
   text-decoration: none;
   background-color: transparent;
+}
+
+.brand {
+  color: white;
+  font-family: "Dancing Script", cursive;
+  font-size: 40px;
 }
 
 .nav-links {
@@ -34,6 +47,7 @@ a {
   padding-left: 50%;
   margin-bottom: 0;
   color: black;
+  font-family: "Lato", sans-serif;
 }
 
 /* forms */
@@ -85,10 +99,10 @@ a {
     no-repeat fixed bottom;
   background-size: cover;
   color: white;
-  height: 330px;
+  height: 280px;
   position: relative;
   z-index: -2;
-  margin-top: 10rem;
+  margin-top: 3rem;
   margin-bottom: -1rem;
   margin-left: -1rem;
   margin-right: -1rem;
@@ -103,4 +117,10 @@ a {
   right: 0;
   bottom: 0;
   z-index: -1;
+}
+.display-4 {
+  padding-top: 20px;
+  font-size: 3.5rem;
+  font-weight: 300;
+  line-height: 1.2;
 }

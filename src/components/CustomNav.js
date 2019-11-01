@@ -9,7 +9,9 @@ export default class CustomNav extends Component {
       <div>
         <Navbar collapseOnSelect>
           <Navbar.Brand>
-            <Link to="/">Photo and Camera</Link>
+            <Link to="/" className="brand">
+              Photo and Camera
+            </Link>
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>

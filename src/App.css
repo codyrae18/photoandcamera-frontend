@@ -44,7 +44,6 @@ a {
   display: flex;
   justify-content: space-around;
   list-style: none;
-  padding-left: 50%;
   margin-bottom: 0;
   color: black;
   font-family: "Lato", sans-serif;
@@ -87,20 +86,49 @@ a {
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
+.search-button {
+  font-family: sourc-sans-pro;
+  margin: auto;
+  display: block;
+  width: 70px;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #ffffff;
+  background: none;
+  background-clip: padding-box;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.mr-sm-2,
+.mx-sm-2 {
+  margin-left: 500px;
+}
+
 .signup {
   color: white;
   margin-top: 100px;
 }
-
-/* jumbotron */
-
-.jumbo {
+/* color: white;
+  position: relative;
+  z-index: -2;
+  margin-top: 3rem;
+  margin-bottom: -1rem;
+  margin-left: -1rem;
+  margin-right: -1rem; */
+.jumbotron {
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+  border-radius: 0.3rem;
   background: url("https://images.unsplash.com/photo-1572512484487-5a471e8986af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=60")
     no-repeat fixed bottom;
-  background-size: cover;
+  background-position: 0% 50%;
+  height: 250px;
   color: white;
-  height: 280px;
-  position: relative;
   z-index: -2;
   margin-top: 3rem;
   margin-bottom: -1rem;
@@ -118,6 +146,7 @@ a {
   bottom: 0;
   z-index: -1;
 }
+
 .display-4 {
   padding-top: 20px;
   font-size: 3.5rem;

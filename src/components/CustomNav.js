@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Nav, Navbar, NavItem } from "react-bootstrap";
+import {
+  Nav,
+  Navbar,
+  NavItem,
+  Form,
+  FormControl,
+  Button
+} from "react-bootstrap";
 // import { LinkContainer } from "react-router-bootstrap";
 
 export default class CustomNav extends Component {
@@ -14,6 +21,16 @@ export default class CustomNav extends Component {
             </Link>
           </Navbar.Brand>
           <Navbar.Toggle />
+          <Form inline>
+            <FormControl
+              type="text"
+              placeholder="Search"
+              className=" mr-sm-2"
+            />
+            <Button className="search-button" type="submit">
+              Submit
+            </Button>
+          </Form>
           <Navbar.Collapse>
             <Nav className="nav-links">
               <Link to="/">

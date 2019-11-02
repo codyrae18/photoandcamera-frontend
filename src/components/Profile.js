@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Row, Col, Container, Card, Button } from "react-bootstrap";
+// import { Link } from "react-router-dom";
+import { Row, Col, Container, Card } from "react-bootstrap";
 
 class Profile extends Component {
   render() {

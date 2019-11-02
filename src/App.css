@@ -153,3 +153,27 @@ a {
   font-weight: 300;
   line-height: 1.2;
 }
+
+.carousel {
+  position: relative;
+  margin-top: auto;
+}
+
+.body-header {
+  padding-top: 30px;
+}
+
+.carousel-indicators {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 15;
+  display: flex;
+  justify-content: center;
+  padding-left: 0;
+  margin-right: 15%;
+  margin-left: 15%;
+  list-style: none;
+  padding-top: 30px;
+}

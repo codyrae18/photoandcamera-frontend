@@ -12,6 +12,7 @@ import {
 
 export default class CustomNav extends Component {
   render() {
+    console.log("CustomNav", this.props.currentUser);
     return (
       <div>
         <Navbar collapseOnSelect>
@@ -22,6 +23,11 @@ export default class CustomNav extends Component {
           </Navbar.Brand>
           <Navbar.Toggle />
           <Form inline>
+            {window.localStorage.getItem("username") ? (
+              <h1> {window.localStorage.getItem("username")}</h1>
+            ) : (
+              <h1>Not logged in, aww</h1>
+            )}
             <FormControl
               type="text"
               placeholder="Search"
@@ -45,6 +51,16 @@ export default class CustomNav extends Component {
               <Link to="/signup">
                 <NavItem>Sign Up</NavItem>
               </Link>
+              {window.localStorage.getItem("username") && (
+                <NavItem>
+                  <Button
+                    className="search-button"
+                    onClick={this.props.handleClickLogout}
+                  >
+                    Logout
+                  </Button>
+                </NavItem>
+              )}
             </Nav>
             <Navbar.Toggle />
           </Navbar.Collapse>

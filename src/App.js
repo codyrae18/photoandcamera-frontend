@@ -10,6 +10,7 @@ import {
   Route,
   withRouter
 } from "react-router-dom";
+// import Dropzone from "react-dropzone";
 import "./App.css";
 
 class App extends Component {
@@ -26,11 +27,13 @@ class App extends Component {
     loggedin: false,
     error: "",
     current_user: "",
-    users: ""
+    users: "",
+    selectedFile: "",
+    images: null
   };
 
-  componentDidMount() {
-    fetch("http://localhost:3000/albums", {
+  componentDidUpdate() {
+    fetch("http://localhost:3000/api/users/2", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${window.localStorage.getItem("token")}`
@@ -41,7 +44,7 @@ class App extends Component {
         // this.setState({
         //   users: data.users
         // });
-        console.log(data);
+        console.log("my users", data);
       });
   }
 
@@ -81,8 +84,8 @@ class App extends Component {
   };
 
   handleClick = event => {
-    console.log("login", this.state.login);
-    console.log("thiis hits", event);
+    // console.log("login", this.state.login);
+    // console.log("thiis hits", event);
     event.preventDefault();
     const configObj = {
       method: "POST",
@@ -101,11 +104,11 @@ class App extends Component {
       .then(resp => resp.json())
       .then(json => {
         // this.props.history.push("/home");
-
+        console.log("json", json);
         if (!json.hasOwnProperty("error")) {
           window.localStorage.setItem("token", json.jwt);
           window.localStorage.setItem("username", json.user.username);
-          window.localStorage.setItem("id", `${json.user.user_id}`);
+          window.localStorage.setItem("userId", `${json.user.id}`);
           // window.location.assign("http://localhost:3000/api/users");
           this.setState({ current_user: json.user });
           console.log("fetching", json);
@@ -126,8 +129,50 @@ class App extends Component {
     this.props.history.push("/");
   };
 
+  fileSelectHandler = event => {
+    console.log(event.target.files[0]);
+    this.setState({
+      images: event.target.files[0]
+    });
+  };
+
+  fileUploadHandler = event => {
+    // console.log(event.target.files[0]);
+    event.preventDefault();
+    const formData = new FormData();
+
+    // formData.append("username", this.state.);
+    const formImage = this.state.images;
+    // console.log("form image", formImage);
+    formData.append("image", formImage);
+    console.log("formdata", formData);
+    // this.state.current_user.id
+    let configObj = {
+      method: "PATCH",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt")
+      },
+      body: formData
+    };
+    console.log("state", this.state.images);
+    fetch(`http://localhost:3000/api/image/2`, configObj)
+      .then(res => res.json())
+      .then(images => {
+        this.setState({
+          images
+        });
+      });
+  };
+
+  onDrop = acceptedFiles => {
+    this.setState({
+      images: acceptedFiles[0]
+    });
+  };
+
   render() {
-    console.log("Current User", this.state.current_user);
+    console.log("state", this.state.images);
+
     return (
       <Router>
         <div className="App">
@@ -156,10 +201,30 @@ class App extends Component {
                   handleClick={this.handleClick}
                   handleClickLogout={this.handleClickLogout}
                   login={this.state.login}
+                  fileSelectHandler={this.fileSelectHandler}
                 />
               )}
             />
           </Switch>
+
+          <div>
+            <form onSubmit={this.handleUpload}>
+              <input
+                // style={{ display: "none" }}
+                type="file"
+                name="file"
+                onChange={this.fileSelectHandler}
+                // ref={fileInput => (this.fileInput = fileInput)}
+                // value={this.state.file}
+              />
+              {/* <button onClick={() => this.fileInput.click()}>
+                Add a Photo{" "}
+              </button> */}
+              <button type="submit" onClick={this.fileUploadHandler}>
+                Submit
+              </button>
+            </form>
+          </div>
         </div>
       </Router>
     );
@@ -167,3 +232,17 @@ class App extends Component {
 }
 
 export default withRouter(App);
+
+// <Dropzone
+//   onDrop={this.onDrop}
+//   accept="image/png, image/gif,image/jpg,image/jpeg"
+// >
+//   {({ getRootProps, getInputProps }) => (
+//     <div {...getRootProps()}>
+//       <input {...getInputProps()} />
+//       {this.state.images !== null
+//         ? "File Uploaded"
+//         : "Click me to upload a file!"}
+//     </div>
+//   )}
+// </Dropzone>

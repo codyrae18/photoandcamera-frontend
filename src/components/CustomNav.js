@@ -12,7 +12,7 @@ import {
 
 export default class CustomNav extends Component {
   render() {
-    console.log("CustomNav", this.props.currentUser);
+    // console.log("CustomNav", this.props.currentUser);
     return (
       <div>
         <Navbar collapseOnSelect>

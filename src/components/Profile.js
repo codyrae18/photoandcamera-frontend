@@ -9,6 +9,7 @@ class Profile extends Component {
         <div className="signup">
           <h1>My Profile</h1>
         </div>
+       
         <Container>
           <Row>
             <Col>

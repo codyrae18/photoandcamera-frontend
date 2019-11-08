@@ -3,6 +3,7 @@ import { Container, Card, Row, Col } from "react-bootstrap";
 
 class HomePagePhotos extends Component {
   render() {
+    console.log("home page photos props", this.props);
     return (
       <Container className="home-container">
         <Row>
@@ -10,7 +11,7 @@ class HomePagePhotos extends Component {
             <Card style={{ width: "18rem" }}>
               <Card.Img
                 variant="top"
-                src="https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=60/100px180"
+                src="https://images.unsplash.com/photo-1520390138845-fd2d229dd553?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=60/100px180"
               />
               <Card.Body>
                 <Card.Title>Card Title</Card.Title>

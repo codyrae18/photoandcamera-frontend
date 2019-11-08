@@ -32,21 +32,30 @@ class App extends Component {
     images: null
   };
 
-  componentDidUpdate() {
-    fetch("http://localhost:3000/api/users/2", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${window.localStorage.getItem("token")}`
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
-        // this.setState({
-        //   users: data.users
-        // });
-        console.log("my users", data);
-      });
+  componentDidMount() {
+    const localUserId = localStorage.getItem("userId");
+
+    if (localUserId) {
+      this.fetchCurrentUser(localUserId);
+    }
   }
+
+  fetchCurrentUser = userId => {
+    let configObj = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt")
+      }
+    };
+
+    fetch(`http://localhost:3000/profile/${userId}`, configObj)
+      .then(response => response.json())
+      .then(response => {
+        this.setState({
+          currentUser: response
+        });
+      });
+  };
 
   handleSubmit = event => {
     event.preventDefault();
@@ -137,16 +146,11 @@ class App extends Component {
   };
 
   fileUploadHandler = event => {
-    // console.log(event.target.files[0]);
     event.preventDefault();
+    const currentId = localStorage.getItem("userId");
     const formData = new FormData();
-
-    // formData.append("username", this.state.);
     const formImage = this.state.images;
-    // console.log("form image", formImage);
     formData.append("image", formImage);
-    console.log("formdata", formData);
-    // this.state.current_user.id
     let configObj = {
       method: "PATCH",
       headers: {
@@ -154,14 +158,16 @@ class App extends Component {
       },
       body: formData
     };
-    console.log("state", this.state.images);
-    fetch(`http://localhost:3000/api/image/2`, configObj)
+
+    fetch(`http://localhost:3000/api/image/${currentId}`, configObj)
       .then(res => res.json())
       .then(images => {
+        console.log("status", images);
         this.setState({
           images
         });
       });
+    this.componentDidMount();
   };
 
   onDrop = acceptedFiles => {
@@ -171,7 +177,7 @@ class App extends Component {
   };
 
   render() {
-    console.log("state", this.state.images);
+    console.log("state", this.state.current_user);
 
     return (
       <Router>
@@ -181,7 +187,11 @@ class App extends Component {
             handleClickLogout={this.handleClickLogout}
           />
           <Switch>
-            <Route path="/" exact component={Home} />
+            <Route
+              exact
+              path="/"
+              render={() => <Home currentUser={this.state.current_user} />}
+            />
             <Route
               path="/signup"
               render={() => (
@@ -206,7 +216,18 @@ class App extends Component {
               )}
             />
           </Switch>
-
+          <div>
+            {this.state.current_user.image ? (
+              <img
+                src={`http://localhost:3000/${this.state.current_user.image}`}
+                alt=""
+                width="50%;"
+                height="50%;"
+              ></img>
+            ) : (
+              <h2>No Image Found</h2>
+            )}
+          </div>
           <div>
             <form onSubmit={this.handleUpload}>
               <input

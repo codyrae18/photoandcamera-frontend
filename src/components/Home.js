@@ -13,7 +13,10 @@ class Home extends Component {
         <h1 className="body-header">Categories</h1>
         <Categories />
         <h1 className="body-header">Photos</h1>
-        <HomePagePhotos currentUser={this.props.currentUser} />
+        <HomePagePhotos
+          currentUser={this.props.currentUser}
+          posts={this.props.posts}
+        />
         <h1 className="body-header">Cameras</h1>
         <Camera />
       </>

@@ -29,16 +29,36 @@ class App extends Component {
     current_user: "",
     users: "",
     selectedFile: "",
-    images: null
+    images: null,
+    posts: []
   };
 
   componentDidMount() {
+    this.fetchAllPost();
     const localUserId = localStorage.getItem("userId");
 
     if (localUserId) {
       this.fetchCurrentUser(localUserId);
     }
   }
+
+  fetchAllPost = post => {
+    let configObj = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt")
+      }
+    };
+    fetch(`http://localhost:3000/posts`, configObj)
+      .then(response => response.json())
+      .then(posts => {
+        console.log("this is all the photos", posts);
+        this.setState({
+          posts
+        });
+      });
+  };
 
   fetchCurrentUser = userId => {
     let configObj = {
@@ -48,7 +68,7 @@ class App extends Component {
       }
     };
 
-    fetch(`http://localhost:3000/profile/${userId}`, configObj)
+    fetch(`http://localhost:3000/api/profile/${userId}`, configObj)
       .then(response => response.json())
       .then(response => {
         this.setState({
@@ -71,8 +91,8 @@ class App extends Component {
         user: {
           name: accounts.name,
           username: accounts.username,
-          password: accounts.password,
-          description: accounts.description
+          password: accounts.password
+          // description: accounts.description
         }
       })
     })
@@ -93,7 +113,9 @@ class App extends Component {
   };
 
   handleClick = event => {
-    // console.log("login", this.state.login);
+    console.log("login", this.state.login);
+    this.props.history.push("/");
+
     // console.log("thiis hits", event);
     event.preventDefault();
     const configObj = {
@@ -112,13 +134,12 @@ class App extends Component {
     fetch(`http://localhost:3000/api/login`, configObj)
       .then(resp => resp.json())
       .then(json => {
-        // this.props.history.push("/home");
         console.log("json", json);
         if (!json.hasOwnProperty("error")) {
           window.localStorage.setItem("token", json.jwt);
           window.localStorage.setItem("username", json.user.username);
           window.localStorage.setItem("userId", `${json.user.id}`);
-          // window.location.assign("http://localhost:3000/api/users");
+          // window.location.assign("http://localhost:3000/users");
           this.setState({ current_user: json.user });
           console.log("fetching", json);
         } else {
@@ -139,7 +160,7 @@ class App extends Component {
   };
 
   fileSelectHandler = event => {
-    console.log(event.target.files[0]);
+    // console.log(event.target.files[0]);
     this.setState({
       images: event.target.files[0]
     });
@@ -148,26 +169,35 @@ class App extends Component {
   fileUploadHandler = event => {
     event.preventDefault();
     const currentId = localStorage.getItem("userId");
-    const formData = new FormData();
-    const formImage = this.state.images;
-    formData.append("image", formImage);
+    const formPayLoad = new FormData();
+    const postImage = this.state.images;
+    // console.log("postImage", postImage);
+    // console.log("currentId", currentId);
+
+    formPayLoad.append("post_image", postImage);
+    formPayLoad.append("user_id", currentId);
+
+    // console.log("formPayload", formPayLoad);
     let configObj = {
-      method: "PATCH",
+      method: "POST",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt")
       },
-      body: formData
+      body: formPayLoad
     };
 
-    fetch(`http://localhost:3000/api/image/${currentId}`, configObj)
+    fetch(`http://localhost:3000/posts`, configObj)
       .then(res => res.json())
       .then(images => {
-        console.log("status", images);
+        console.log("status >>>> ", images);
         this.setState({
           images
         });
+      })
+      .catch(function() {
+        console.log("error");
       });
-    this.componentDidMount();
+    // this.componentDidMount();
   };
 
   onDrop = acceptedFiles => {
@@ -177,7 +207,7 @@ class App extends Component {
   };
 
   render() {
-    console.log("state", this.state.current_user);
+    console.log("state", this.state.posts);
 
     return (
       <Router>
@@ -190,7 +220,12 @@ class App extends Component {
             <Route
               exact
               path="/"
-              render={() => <Home currentUser={this.state.current_user} />}
+              render={() => (
+                <Home
+                  posts={this.state.posts}
+                  currentUser={this.state.current_user}
+                />
+              )}
             />
             <Route
               path="/signup"

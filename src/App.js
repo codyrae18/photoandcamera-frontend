@@ -10,7 +10,8 @@ import {
   Route,
   withRouter
 } from "react-router-dom";
-// import Dropzone from "react-dropzone";
+import { Dropdown, DropdownButton } from "react-bootstrap";
+
 import "./App.css";
 
 class App extends Component {
@@ -30,11 +31,15 @@ class App extends Component {
     users: "",
     selectedFile: "",
     images: null,
-    posts: []
+    posts: [],
+    categories: [],
+    currentDropDown: "",
+    currentCategory: ""
   };
 
   componentDidMount() {
     this.fetchAllPost();
+    this.fetchAllCategories();
     const localUserId = localStorage.getItem("userId");
 
     if (localUserId) {
@@ -53,9 +58,27 @@ class App extends Component {
     fetch(`http://localhost:3000/posts`, configObj)
       .then(response => response.json())
       .then(posts => {
-        console.log("this is all the photos", posts);
+        // console.log("this is all the photos", posts);
         this.setState({
           posts
+        });
+      });
+  };
+
+  fetchAllCategories = category => {
+    let configObj = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt")
+      }
+    };
+    fetch(`http://localhost:3000/categories`, configObj)
+      .then(response => response.json())
+      .then(categories => {
+        console.log("this is all the category", categories);
+        this.setState({
+          categories
         });
       });
   };
@@ -134,7 +157,7 @@ class App extends Component {
     fetch(`http://localhost:3000/api/login`, configObj)
       .then(resp => resp.json())
       .then(json => {
-        console.log("json", json);
+        // console.log("json", json);
         if (!json.hasOwnProperty("error")) {
           window.localStorage.setItem("token", json.jwt);
           window.localStorage.setItem("username", json.user.username);
@@ -166,6 +189,29 @@ class App extends Component {
     });
   };
 
+  categoryOnClick = event => {
+    console.log(event.target.id);
+    let filteredId = parseInt(event.target.id);
+    let filteredPost = this.state.posts.filter(post => {
+      return post.category_id === filteredId;
+    });
+    console.log("Filtered Post", filteredPost);
+    this.setState({
+      currentCategory: filteredId,
+      posts: filteredPost
+    });
+    // this.fetchAllPost();
+  };
+
+  dropdownSelect = event => {
+    // console.log(event.target.files[0]);
+    event.preventDefault();
+    this.setState({
+      currentDropDown: event.target.id
+    });
+    // debugger;
+  };
+
   fileUploadHandler = event => {
     event.preventDefault();
     const currentId = localStorage.getItem("userId");
@@ -176,6 +222,7 @@ class App extends Component {
 
     formPayLoad.append("post_image", postImage);
     formPayLoad.append("user_id", currentId);
+    formPayLoad.append("category_id", this.state.currentDropDown);
 
     // console.log("formPayload", formPayLoad);
     let configObj = {
@@ -193,11 +240,11 @@ class App extends Component {
         this.setState({
           images
         });
+        this.fetchAllPost();
       })
       .catch(function() {
         console.log("error");
       });
-    // this.componentDidMount();
   };
 
   onDrop = acceptedFiles => {
@@ -224,6 +271,8 @@ class App extends Component {
                 <Home
                   posts={this.state.posts}
                   currentUser={this.state.current_user}
+                  categories={this.state.categories}
+                  categoryOnClick={this.categoryOnClick}
                 />
               )}
             />
@@ -274,8 +323,29 @@ class App extends Component {
                 // value={this.state.file}
               />
               {/* <button onClick={() => this.fileInput.click()}>
-                Add a Photo{" "}
+                Add a Photo
               </button> */}
+              <div>
+                <DropdownButton
+                  id="dropdown-basic-button"
+                  title="Dropdown button"
+                  onClick={this.dropdownSelect}
+                >
+                  {this.state.categories.map(category => (
+                    <Dropdown.Item key={category.id} id={category.id}>
+                      {category.title}
+                    </Dropdown.Item>
+                  ))}
+                  {/* <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                  <Dropdown.Item href="#/action-2">
+                    Another action
+                  </Dropdown.Item>
+                  <Dropdown.Item href="#/action-3">
+                    Something else
+                  </Dropdown.Item> */}
+                </DropdownButton>
+              </div>
+
               <button type="submit" onClick={this.fileUploadHandler}>
                 Submit
               </button>

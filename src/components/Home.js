@@ -6,12 +6,15 @@ import Categories from "./Categories";
 
 class Home extends Component {
   render() {
-    console.log("home props", this.props);
+    // console.log("home props", this.props);
     return (
       <>
         <Jumbo />
         <h1 className="body-header">Categories</h1>
-        <Categories />
+        <Categories
+          categories={this.props.categories}
+          categoryOnClick={this.props.categoryOnClick}
+        />
         <h1 className="body-header">Photos</h1>
         <HomePagePhotos
           currentUser={this.props.currentUser}

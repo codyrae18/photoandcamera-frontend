@@ -113,25 +113,19 @@ a {
   color: white;
   margin-top: 100px;
 }
-/* color: white;
-  position: relative;
-  z-index: -2;
-  margin-top: 3rem;
-  margin-bottom: -1rem;
-  margin-left: -1rem;
-  margin-right: -1rem; */
+
 .jumbotron {
   padding: 2rem 1rem;
-  margin-bottom: 2rem;
   border-radius: 0.3rem;
   background: url("https://images.unsplash.com/photo-1572512484487-5a471e8986af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=60")
     no-repeat fixed bottom;
-  background-position: 0% 50%;
+  background-position: center;
+  background-size: cover;
   height: 250px;
   color: white;
   z-index: -2;
   margin-top: 3rem;
-  margin-bottom: -1rem;
+  margin-bottom: 2rem;
   margin-left: -1rem;
   margin-right: -1rem;
 }
@@ -175,5 +169,41 @@ a {
   margin-right: 15%;
   margin-left: 15%;
   list-style: none;
-  padding-top: 500px;
+}
+
+.row {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.carousel-indicators li {
+  background-color: black;
+  list-style: none;
+}
+
+.img-thumbnail {
+  padding: 0.25rem;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  height: 150px;
+  width: 180px;
+  margin: 2px;
+}
+
+.category-pic {
+  width: 180px;
+  height: 150px;
+}
+
+.category-card {
+  width: 180px;
+  border-radius: 0.25rem;
+}
+
+.group:hover {
+  opacity: 100%;
+  cursor: pointer;
+  transform: translateX(-3px);
+  transform: scale(1.3);
 }

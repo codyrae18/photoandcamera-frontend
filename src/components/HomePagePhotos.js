@@ -7,8 +7,8 @@ class HomePagePhotos extends Component {
     return (
       <Container className="home-container">
         <Row>
-          {this.props.posts.map(post => (
-            <Col xs={6} md={4}>
+          {this.props.filteredPosts.map(post => (
+            <Col key={post.id} xs={6} md={4}>
               <Card style={{ width: "22rem" }}>
                 <Card.Img
                   variant="top"

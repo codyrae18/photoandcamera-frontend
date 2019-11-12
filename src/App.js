@@ -32,6 +32,8 @@ class App extends Component {
     selectedFile: "",
     images: null,
     posts: [],
+    filteredPosts: [],
+    userPost: [],
     categories: [],
     currentDropDown: "",
     currentCategory: ""
@@ -60,9 +62,11 @@ class App extends Component {
       .then(posts => {
         // console.log("this is all the photos", posts);
         this.setState({
-          posts
+          filteredPosts: posts,
+          posts: posts
         });
-      });
+      })
+      .then(this.userImages);
   };
 
   fetchAllCategories = category => {
@@ -164,7 +168,7 @@ class App extends Component {
           window.localStorage.setItem("userId", `${json.user.id}`);
           // window.location.assign("http://localhost:3000/users");
           this.setState({ current_user: json.user });
-          console.log("fetching", json);
+          // console.log("fetching", json);
         } else {
           this.setState({ error: json.error });
         }
@@ -173,6 +177,16 @@ class App extends Component {
     this.setState({
       username: "",
       password: ""
+    });
+  };
+
+  userImages = () => {
+    let myUserId = parseInt(localStorage.getItem("userId"));
+    let filteredPost = this.state.posts.filter(post => {
+      return post.user_id === myUserId;
+    });
+    this.setState({
+      userPost: filteredPost
     });
   };
 
@@ -190,15 +204,13 @@ class App extends Component {
   };
 
   categoryOnClick = event => {
-    console.log(event.target.id);
     let filteredId = parseInt(event.target.id);
     let filteredPost = this.state.posts.filter(post => {
       return post.category_id === filteredId;
     });
-    console.log("Filtered Post", filteredPost);
     this.setState({
       currentCategory: filteredId,
-      posts: filteredPost
+      filteredPosts: filteredPost
     });
     // this.fetchAllPost();
   };
@@ -269,7 +281,7 @@ class App extends Component {
               path="/"
               render={() => (
                 <Home
-                  posts={this.state.posts}
+                  filteredPosts={this.state.filteredPosts}
                   currentUser={this.state.current_user}
                   categories={this.state.categories}
                   categoryOnClick={this.categoryOnClick}
@@ -286,7 +298,10 @@ class App extends Component {
                 />
               )}
             />
-            <Route path="/profile" component={Profile} />
+            <Route
+              path="/profile"
+              render={() => <Profile userPost={this.state.userPost} />}
+            />
             <Route
               path="/login"
               render={() => (

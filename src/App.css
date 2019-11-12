@@ -199,6 +199,7 @@ a {
 .category-card {
   width: 180px;
   border-radius: 0.25rem;
+  margin: 2px;
 }
 
 .group:hover {
@@ -206,4 +207,5 @@ a {
   cursor: pointer;
   transform: translateX(-3px);
   transform: scale(1.3);
+  transition-duration: 1s;
 }

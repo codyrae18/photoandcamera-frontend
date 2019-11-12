@@ -4,14 +4,35 @@ import { Row, Col, Container, Card } from "react-bootstrap";
 
 class Profile extends Component {
   render() {
+    // console.log("profile props;", this.props.userPost);
     return (
       <div>
         <div className="signup">
           <h1>My Profile</h1>
         </div>
-       
+
         <Container>
           <Row>
+            {this.props.userPost.map(post => (
+              <Col key={post.id} xs={6} md={4}>
+                <Card style={{ width: "22rem" }}>
+                  <Card.Img
+                    variant="top"
+                    src={`http://localhost:3000/${post.post_image}`}
+                  />
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      </div>
+    );
+  }
+}
+
+export default Profile;
+
+/* <Row>
             <Col>
               <Card style={{ width: "18rem" }}>
                 <Card.Img
@@ -56,11 +77,4 @@ class Profile extends Component {
                 </Card.Body>
               </Card>
             </Col>
-          </Row>
-        </Container>
-      </div>
-    );
-  }
-}
-
-export default Profile;
+          </Row> */

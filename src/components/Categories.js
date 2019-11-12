@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { Carousel, Row, Image, Card } from "react-bootstrap";
+import { Carousel, Row, Card } from "react-bootstrap";
 
 class Categories extends Component {
   state = {};
   render() {
-    console.log("categories props", this.props.categories);
+    // console.log("categories props", this.props.categories);
     return (
       <Carousel>
         {/* <Carousel.Item>
@@ -23,11 +23,13 @@ class Categories extends Component {
         <Carousel.Item>
           <Row>
             {this.props.categories.map(category => (
-              <Card className="category-card group">
+              <Card key={category.id} className="category-card group">
                 <Card.Img
                   variant="top"
                   src={category.img_url}
                   className="category-pic"
+                  id={category.id}
+                  onClick={this.props.categoryOnClick}
                 />
 
                 <Card.Body>

@@ -19,6 +19,7 @@ class Home extends Component {
         <HomePagePhotos
           currentUser={this.props.currentUser}
           posts={this.props.posts}
+          filteredPosts={this.props.filteredPosts}
         />
         <h1 className="body-header">Cameras</h1>
         <Camera />

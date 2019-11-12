@@ -209,3 +209,8 @@ a {
   transform: scale(1.3);
   transition-duration: 1s;
 }
+
+.dropdown-toggle {
+  white-space: nowrap;
+  color: black;
+}

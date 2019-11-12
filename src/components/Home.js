@@ -6,10 +6,19 @@ import Categories from "./Categories";
 
 class Home extends Component {
   render() {
-    // console.log("home props", this.props);
+    console.log("home props", this.props);
     return (
       <>
-        <Jumbo />
+        <Jumbo
+          toggleAlert={this.props.toggleAlert}
+          toggleModal={this.props.toggleModal}
+          visible={this.props.visible}
+          categories={this.props.categories}
+          fileUploadHandler={this.props.fileUploadHandler}
+          dropDownSelect={this.props.dropDownSelect}
+          fileSelectHandler={this.props.fileSelectHandler}
+        />
+
         <h1 className="body-header">Categories</h1>
         <Categories
           categories={this.props.categories}

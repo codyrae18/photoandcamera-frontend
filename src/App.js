@@ -36,7 +36,9 @@ class App extends Component {
     userPost: [],
     categories: [],
     currentDropDown: "",
-    currentCategory: ""
+    currentCategory: "",
+    visible: false,
+    modalIsOpen: false
   };
 
   componentDidMount() {
@@ -197,7 +199,7 @@ class App extends Component {
   };
 
   fileSelectHandler = event => {
-    // console.log(event.target.files[0]);
+    console.log(event.target.files[0]);
     this.setState({
       images: event.target.files[0]
     });
@@ -215,7 +217,7 @@ class App extends Component {
     // this.fetchAllPost();
   };
 
-  dropdownSelect = event => {
+  dropDownSelect = event => {
     // console.log(event.target.files[0]);
     event.preventDefault();
     this.setState({
@@ -229,7 +231,7 @@ class App extends Component {
     const currentId = localStorage.getItem("userId");
     const formPayLoad = new FormData();
     const postImage = this.state.images;
-    // console.log("postImage", postImage);
+    console.log("postImage", postImage);
     // console.log("currentId", currentId);
 
     formPayLoad.append("post_image", postImage);
@@ -248,7 +250,7 @@ class App extends Component {
     fetch(`http://localhost:3000/posts`, configObj)
       .then(res => res.json())
       .then(images => {
-        console.log("status >>>> ", images);
+        // console.log("status >>>> ", images);
         this.setState({
           images
         });
@@ -265,9 +267,23 @@ class App extends Component {
     });
   };
 
-  render() {
-    console.log("state", this.state.posts);
+  toggleAlert = event => {
+    event.preventDefault();
 
+    this.setState({
+      visible: !this.state.visible
+    });
+  };
+
+  toggleModal = () => {
+    this.setState({
+      modalIsOpen: !this.state.modalIsOpen
+    });
+  };
+
+  render() {
+    // console.log("visible", this.state.visible);
+    // console.log("modalIsOpen", this.state.modalIsOpen);
     return (
       <Router>
         <div className="App">
@@ -285,6 +301,12 @@ class App extends Component {
                   currentUser={this.state.current_user}
                   categories={this.state.categories}
                   categoryOnClick={this.categoryOnClick}
+                  toggleAlert={this.toggleAlert}
+                  toggleModal={this.toggleModal}
+                  dropDownSelect={this.dropDownSelect}
+                  visible={this.state.visible}
+                  fileUploadHandler={this.fileUploadHandler}
+                  fileSelectHandler={this.fileSelectHandler}
                 />
               )}
             />

@@ -10,7 +10,6 @@ import {
   Route,
   withRouter
 } from "react-router-dom";
-import { Dropdown, DropdownButton } from "react-bootstrap";
 
 import "./App.css";
 
@@ -38,12 +37,14 @@ class App extends Component {
     currentDropDown: "",
     currentCategory: "",
     visible: false,
-    modalIsOpen: false
+    modalIsOpen: false,
+    postTitle: "",
+    dropDownPlaceHolder: "Category"
   };
 
   componentDidMount() {
-    this.fetchAllPost();
     this.fetchAllCategories();
+    this.fetchAllPost();
     const localUserId = localStorage.getItem("userId");
 
     if (localUserId) {
@@ -141,6 +142,12 @@ class App extends Component {
     this.setState({ login });
   };
 
+  titleHandleChange = event => {
+    const postTitle = { ...this.state.postTitle };
+    postTitle[event.currentTarget.name] = event.currentTarget.value;
+    this.setState({ postTitle });
+  };
+
   handleClick = event => {
     console.log("login", this.state.login);
     this.props.history.push("/");
@@ -218,10 +225,10 @@ class App extends Component {
   };
 
   dropDownSelect = event => {
-    // console.log(event.target.files[0]);
     event.preventDefault();
     this.setState({
-      currentDropDown: event.target.id
+      currentDropDown: event.target.id,
+      dropDownPlaceHolder: event.target.innerText
     });
     // debugger;
   };
@@ -231,10 +238,12 @@ class App extends Component {
     const currentId = localStorage.getItem("userId");
     const formPayLoad = new FormData();
     const postImage = this.state.images;
-    console.log("postImage", postImage);
+    const postTitle = this.state.postTitle;
+    console.log("postTitle", postTitle.title);
     // console.log("currentId", currentId);
 
     formPayLoad.append("post_image", postImage);
+    formPayLoad.append("title", postTitle.title);
     formPayLoad.append("user_id", currentId);
     formPayLoad.append("category_id", this.state.currentDropDown);
 
@@ -282,7 +291,7 @@ class App extends Component {
   };
 
   render() {
-    // console.log("visible", this.state.visible);
+    console.log("title:", this.state.postTitle);
     // console.log("modalIsOpen", this.state.modalIsOpen);
     return (
       <Router>
@@ -307,6 +316,8 @@ class App extends Component {
                   visible={this.state.visible}
                   fileUploadHandler={this.fileUploadHandler}
                   fileSelectHandler={this.fileSelectHandler}
+                  dropDownPlaceHolder={this.state.dropDownPlaceHolder}
+                  titleHandleChange={this.titleHandleChange}
                 />
               )}
             />
@@ -337,57 +348,6 @@ class App extends Component {
               )}
             />
           </Switch>
-          <div>
-            {this.state.current_user.image ? (
-              <img
-                src={`http://localhost:3000/${this.state.current_user.image}`}
-                alt=""
-                width="50%;"
-                height="50%;"
-              ></img>
-            ) : (
-              <h2>No Image Found</h2>
-            )}
-          </div>
-          <div>
-            <form onSubmit={this.handleUpload}>
-              <input
-                // style={{ display: "none" }}
-                type="file"
-                name="file"
-                onChange={this.fileSelectHandler}
-                // ref={fileInput => (this.fileInput = fileInput)}
-                // value={this.state.file}
-              />
-              {/* <button onClick={() => this.fileInput.click()}>
-                Add a Photo
-              </button> */}
-              <div>
-                <DropdownButton
-                  id="dropdown-basic-button"
-                  title="Dropdown button"
-                  onClick={this.dropdownSelect}
-                >
-                  {this.state.categories.map(category => (
-                    <Dropdown.Item key={category.id} id={category.id}>
-                      {category.title}
-                    </Dropdown.Item>
-                  ))}
-                  {/* <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                  <Dropdown.Item href="#/action-2">
-                    Another action
-                  </Dropdown.Item>
-                  <Dropdown.Item href="#/action-3">
-                    Something else
-                  </Dropdown.Item> */}
-                </DropdownButton>
-              </div>
-
-              <button type="submit" onClick={this.fileUploadHandler}>
-                Submit
-              </button>
-            </form>
-          </div>
         </div>
       </Router>
     );
@@ -407,5 +367,57 @@ export default withRouter(App);
 //         ? "File Uploaded"
 //         : "Click me to upload a file!"}
 //     </div>
-//   )}
-// </Dropzone>
+// //   )}
+// // </Dropzone>
+// <div>
+// <form onSubmit={this.handleUpload}>
+//   <input
+//     // style={{ display: "none" }}
+//     type="file"
+//     name="file"
+//     onChange={this.fileSelectHandler}
+//     // ref={fileInput => (this.fileInput = fileInput)}
+//     // value={this.state.file}
+//   />
+//   {/* <button onClick={() => this.fileInput.click()}>
+//     Add a Photo
+//   </button> */}
+//   <div>
+//     <DropdownButton
+//       id="dropdown-basic-button"
+//       title="Dropdown button"
+//       onClick={this.dropdownSelect}
+//     >
+//       {this.state.categories.map(category => (
+//         <Dropdown.Item key={category.id} id={category.id}>
+//           {category.title}
+//         </Dropdown.Item>
+//       ))}
+//       {/* <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+//       <Dropdown.Item href="#/action-2">
+//         Another action
+//       </Dropdown.Item>
+//       <Dropdown.Item href="#/action-3">
+//         Something else
+//       </Dropdown.Item> */}
+//     </DropdownButton>
+//   </div>
+
+//   <button type="submit" onClick={this.fileUploadHandler}>
+//     Submit
+//   </button>
+// </form>
+// </div>
+
+// <div>
+//             {this.state.current_user.image ? (
+//               <img
+//                 src={`http://localhost:3000/${this.state.current_user.image}`}
+//                 alt=""
+//                 width="50%;"
+//                 height="50%;"
+//               ></img>
+//             ) : (
+//               <h2>No Image Found</h2>
+//             )}
+//           </div>

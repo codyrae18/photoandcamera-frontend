@@ -5,7 +5,6 @@ import { Jumbotron, Button, ButtonToolbar } from "react-bootstrap";
 
 class Jumbo extends Component {
   render() {
-    console.log("jumbo", this.props);
     return (
       <div>
         <Jumbotron>
@@ -26,6 +25,8 @@ class Jumbo extends Component {
                 fileUploadHandler={this.props.fileUploadHandler}
                 fileSelectHandler={this.props.fileSelectHandler}
                 categories={this.props.categories}
+                dropDownPlaceHolder={this.props.dropDownPlaceHolder}
+                titleHandleChange={this.props.titleHandleChange}
               />
             </ButtonToolbar>
           </div>

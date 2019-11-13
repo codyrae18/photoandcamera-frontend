@@ -6,7 +6,6 @@ import Categories from "./Categories";
 
 class Home extends Component {
   render() {
-    console.log("home props", this.props);
     return (
       <>
         <Jumbo
@@ -17,6 +16,8 @@ class Home extends Component {
           fileUploadHandler={this.props.fileUploadHandler}
           dropDownSelect={this.props.dropDownSelect}
           fileSelectHandler={this.props.fileSelectHandler}
+          dropDownPlaceHolder={this.props.dropDownPlaceHolder}
+          titleHandleChange={this.props.titleHandleChange}
         />
 
         <h1 className="body-header">Categories</h1>

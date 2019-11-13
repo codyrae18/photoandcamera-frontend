@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import {
   Nav,
@@ -23,11 +23,6 @@ export default class CustomNav extends Component {
           </Navbar.Brand>
           <Navbar.Toggle />
           <Form inline>
-            {window.localStorage.getItem("username") ? (
-              <h1> {window.localStorage.getItem("username")}</h1>
-            ) : (
-              <h1>Not logged in, aww</h1>
-            )}
             <FormControl
               type="text"
               placeholder="Search"
@@ -45,12 +40,19 @@ export default class CustomNav extends Component {
               <Link to="/profile">
                 <NavItem>Profile</NavItem>
               </Link>
-              <Link to="/login">
-                <NavItem>Login</NavItem>
-              </Link>
-              <Link to="/signup">
-                <NavItem>Sign Up</NavItem>
-              </Link>
+              {window.localStorage.getItem("username") ? (
+                <h1> {window.localStorage.getItem("username")}</h1>
+              ) : (
+                <Fragment>
+                  <Link to="/login">
+                    <NavItem>Login</NavItem>
+                  </Link>
+                  <Link to="/signup">
+                    <NavItem>Sign Up</NavItem>
+                  </Link>
+                </Fragment>
+              )}
+
               {window.localStorage.getItem("username") && (
                 <NavItem>
                   <Button

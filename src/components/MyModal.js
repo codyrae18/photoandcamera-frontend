@@ -11,7 +11,6 @@ import {
 class MyModal extends Component {
   state = {};
   render() {
-    console.log("MyModal", this.props);
     return (
       <div>
         <Modal
@@ -40,12 +39,23 @@ class MyModal extends Component {
                       <small>Upload your photos here</small>
                     </p>
                   </div>
+                  <div>
+                    <input
+                      type="text"
+                      name="title"
+                      placeholder="Title"
+                      onChange={this.props.titleHandleChange}
+                    />
+                    <p>
+                      <small>Name your post.</small>
+                    </p>
+                  </div>
 
                   <div>
                     <DropdownButton
                       id="dropdown-basic-button"
-                      title="Dropdown button"
-                      onClick={this.props.dropdownSelect}
+                      title={this.props.dropDownPlaceHolder}
+                      onClick={this.props.dropDownSelect}
                     >
                       {this.props.categories.map(category => (
                         <Dropdown.Item key={category.id} id={category.id}>

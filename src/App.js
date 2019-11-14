@@ -1,15 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import CustomNav from "./components/CustomNav";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  withRouter
-} from "react-router-dom";
+import { Switch, Route, withRouter } from "react-router-dom";
 
 import "./App.css";
 
@@ -39,7 +34,9 @@ class App extends Component {
     visible: false,
     modalIsOpen: false,
     postTitle: "",
-    dropDownPlaceHolder: "Category"
+    dropDownPlaceHolder: "Category",
+    onePhoto: "",
+    showPhotoModal: false
   };
 
   componentDidMount() {
@@ -150,7 +147,6 @@ class App extends Component {
 
   handleClick = event => {
     console.log("login", this.state.login);
-    this.props.history.push("/");
 
     // console.log("thiis hits", event);
     event.preventDefault();
@@ -187,6 +183,7 @@ class App extends Component {
       username: "",
       password: ""
     });
+    this.props.history.push("/");
   };
 
   userImages = () => {
@@ -239,7 +236,7 @@ class App extends Component {
     const formPayLoad = new FormData();
     const postImage = this.state.images;
     const postTitle = this.state.postTitle;
-    console.log("postTitle", postTitle.title);
+    // console.log("postTitle", postTitle.title);
     // console.log("currentId", currentId);
 
     formPayLoad.append("post_image", postImage);
@@ -290,15 +287,29 @@ class App extends Component {
     });
   };
 
+  searchHandleChange = input => {
+    console.log("input", input.target.value);
+  };
+
+  onePhotoClick = event => {
+    // console.log("one photo click", event.target.currentSrc);
+    this.setState({
+      onePhoto: event.target.currentSrc,
+      showPhotoModal: !this.state.showPhotoModal
+    });
+  };
+
   render() {
-    console.log("title:", this.state.postTitle);
+    console.log("onePhoto:", this.state.onePhoto);
+    console.log("show photo:", this.state.showPhotoModal);
     // console.log("modalIsOpen", this.state.modalIsOpen);
     return (
-      <Router>
+      <Fragment>
         <div className="App">
           <CustomNav
             currentUser={this.state.current_user}
             handleClickLogout={this.handleClickLogout}
+            searchHandleChange={this.searchHandleChange}
           />
           <Switch>
             <Route
@@ -318,9 +329,13 @@ class App extends Component {
                   fileSelectHandler={this.fileSelectHandler}
                   dropDownPlaceHolder={this.state.dropDownPlaceHolder}
                   titleHandleChange={this.titleHandleChange}
+                  onePhotoClick={this.onePhotoClick}
+                  onePhoto={this.state.onePhoto}
+                  show={this.state.showPhotoModal}
                 />
               )}
             />
+
             <Route
               path="/signup"
               render={() => (
@@ -349,7 +364,7 @@ class App extends Component {
             />
           </Switch>
         </div>
-      </Router>
+      </Fragment>
     );
   }
 }

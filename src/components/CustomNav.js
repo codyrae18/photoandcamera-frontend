@@ -27,6 +27,7 @@ export default class CustomNav extends Component {
               type="text"
               placeholder="Search"
               className=" mr-sm-2"
+              onChange={this.props.searchHandleChange}
             />
             <Button className="search-button" type="submit">
               Submit

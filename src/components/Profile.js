@@ -1,12 +1,17 @@
 import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import { Row, Col, Container, Card } from "react-bootstrap";
+import { Jumbotron } from "react-bootstrap";
 
 class Profile extends Component {
   render() {
     // console.log("profile props;", this.props.userPost);
     return (
       <div>
+        <Jumbotron>
+          <h1>Name:</h1>
+          <h1>Description:</h1>
+        </Jumbotron>
         <div className="signup">
           <h1>My Profile</h1>
         </div>
@@ -15,8 +20,17 @@ class Profile extends Component {
           <Row>
             {this.props.userPost.map(post => (
               <Col key={post.id} xs={6} md={4}>
-                <Card style={{ width: "22rem" }}>
+                <Card
+                  style={{
+                    background: "none",
+                    width: "350px",
+                    height: "500px",
+                    margin: "auto"
+                  }}
+                >
                   <Card.Img
+                    style={{ width: "400px", height: "500px", margin: "auto" }}
+                    className="profile-pictures"
                     variant="top"
                     src={`http://localhost:3000/${post.post_image}`}
                   />

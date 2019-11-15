@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import {
   Nav,
@@ -25,33 +25,41 @@ export default class CustomNav extends Component {
           <Form inline>
             <FormControl
               type="text"
-              placeholder="Search"
+              placeholder="Search all Posts ..."
               className=" mr-sm-2"
+              name="search"
               onChange={this.props.searchHandleChange}
             />
-            <Button className="search-button" type="submit">
-              Submit
-            </Button>
           </Form>
           <Navbar.Collapse>
             <Nav className="nav-links">
-              <Link to="/">
-                <NavItem>Home</NavItem>
-              </Link>
-              <Link to="/profile">
-                <NavItem>Profile</NavItem>
-              </Link>
+              <div>
+                {!window.localStorage.getItem("username") ? (
+                  <h1> {window.localStorage.getItem("username")}</h1>
+                ) : (
+                  <Link to="/">
+                    <NavItem>Home</NavItem>
+                  </Link>
+                )}
+              </div>
+              {!window.localStorage.getItem("username") ? (
+                <h1> {window.localStorage.getItem("username")}</h1>
+              ) : (
+                <Link to="/profile">
+                  <NavItem>Profile</NavItem>
+                </Link>
+              )}
               {window.localStorage.getItem("username") ? (
                 <h1> {window.localStorage.getItem("username")}</h1>
               ) : (
-                <Fragment>
+                <div>
                   <Link to="/login">
                     <NavItem>Login</NavItem>
                   </Link>
                   <Link to="/signup">
                     <NavItem>Sign Up</NavItem>
                   </Link>
-                </Fragment>
+                </div>
               )}
 
               {window.localStorage.getItem("username") && (

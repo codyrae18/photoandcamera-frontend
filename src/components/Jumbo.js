@@ -8,11 +8,14 @@ class Jumbo extends Component {
     return (
       <div>
         <Jumbotron>
-          <h1>Hi! Welcome To Photos and Camera</h1>
-          <p>
-            This is a simple hero unit, a simple jumbotron-style component for
-            calling extra attention to featured content or information.
-          </p>
+          <h1>
+            Hi {window.localStorage.getItem("username")}! Welcome To Photos and
+            Camera
+          </h1>
+          <h3 style={{ color: "white" }}>
+            "Taking an image, freezing a moment, reveals how rich reality truly
+            is."
+          </h3>
           <div>
             <ButtonToolbar>
               <Button onClick={this.props.toggleAlert} variant="primary">

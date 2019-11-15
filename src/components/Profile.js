@@ -1,17 +1,32 @@
 import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import { Row, Col, Container, Card } from "react-bootstrap";
-import { Jumbotron } from "react-bootstrap";
 
 class Profile extends Component {
   render() {
     // console.log("profile props;", this.props.userPost);
     return (
       <div>
-        <Jumbotron>
-          <h1>Name:</h1>
-          <h1>Description:</h1>
-        </Jumbotron>
+        <div className="profile-head">
+          <Row>
+            <Col xs lg={2}>
+              <div>
+                <Card style={{ background: "#2d2c2c", padding: "0" }}>
+                  <Card.Img
+                    style={{ width: "150px", height: "180px", margin: "auto" }}
+                    className="profile-pictures"
+                    variant="top"
+                    src="https://i.pinimg.com/originals/cf/89/ee/cf89ee1ec07c965596cfb3544758e6fe.jpg"
+                  />
+                </Card>
+              </div>
+            </Col>
+            <div>
+              <h1>Name: {localStorage.getItem("username")}</h1>
+              <p></p>
+            </div>
+          </Row>
+        </div>
         <div className="signup">
           <h1>My Profile</h1>
         </div>

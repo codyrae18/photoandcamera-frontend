@@ -1,12 +1,21 @@
 import React, { Component } from "react";
-// import { Jumbotron, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
 class Signup extends Component {
   render() {
     const { handleSubmit, handleChange, accounts } = this.props;
-    console.log(accounts);
     return (
       <div>
+        <Modal
+          {...this.props}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Body>
+            <h1> You have successfully Created an account</h1>
+          </Modal.Body>
+        </Modal>
+
         <div className="signup">
           <h1>Sign up:</h1>
         </div>

@@ -26,6 +26,7 @@ class App extends Component {
     selectedFile: "",
     images: null,
     posts: [],
+    cameras: [],
     filteredPosts: [],
     userPost: [],
     categories: [],
@@ -36,17 +37,20 @@ class App extends Component {
     postTitle: "",
     dropDownPlaceHolder: "Category",
     onePhoto: "",
-    showPhotoModal: false
+    showPhotoModal: false,
+    signUpSuccess: false,
+    searchInput: ""
   };
 
   componentDidMount() {
     this.fetchAllCategories();
     this.fetchAllPost();
-    const localUserId = localStorage.getItem("userId");
+    this.fetchAllCameras();
+    // const localUserId = localStorage.getItem("userId");
 
-    if (localUserId) {
-      this.fetchCurrentUser(localUserId);
-    }
+    // if (localUserId) {
+    //   this.fetchCurrentUser(localUserId);
+    // }
   }
 
   fetchAllPost = post => {
@@ -67,6 +71,23 @@ class App extends Component {
         });
       })
       .then(this.userImages);
+  };
+
+  fetchAllCameras = post => {
+    let configObj = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt")
+      }
+    };
+    fetch(`http://localhost:3000/cameras`, configObj)
+      .then(response => response.json())
+      .then(camera => {
+        this.setState({
+          cameras: camera
+        });
+      });
   };
 
   fetchAllCategories = category => {
@@ -98,10 +119,12 @@ class App extends Component {
     fetch(`http://localhost:3000/api/profile/${userId}`, configObj)
       .then(response => response.json())
       .then(response => {
+        console.log("thiis is the current user", response);
         this.setState({
           currentUser: response
         });
       });
+    this.userImages();
   };
 
   handleSubmit = event => {
@@ -124,7 +147,12 @@ class App extends Component {
       })
     })
       .then(r => r.json())
-      .then(r => console.log("successfully created an account", r));
+      .then(r => {
+        console.log("successfully created an account", r);
+        this.setState({
+          showPhotoModal: !this.state.signUpSuccess
+        });
+      });
   };
 
   handleChange = event => {
@@ -178,11 +206,19 @@ class App extends Component {
           this.setState({ error: json.error });
         }
       })
+      .then(data => {
+        const localUserId = localStorage.getItem("userId");
+
+        if (localUserId) {
+          this.fetchCurrentUser(localUserId);
+        }
+      })
       .catch(error => console.log("username or password did not match"));
     this.setState({
       username: "",
       password: ""
     });
+
     this.props.history.push("/");
   };
 
@@ -191,6 +227,7 @@ class App extends Component {
     let filteredPost = this.state.posts.filter(post => {
       return post.user_id === myUserId;
     });
+    console.log("filteredpost", filteredPost);
     this.setState({
       userPost: filteredPost
     });
@@ -199,6 +236,7 @@ class App extends Component {
   handleClickLogout = event => {
     event.preventDefault();
     localStorage.clear();
+    this.userImages();
     this.props.history.push("/");
   };
 
@@ -219,6 +257,10 @@ class App extends Component {
       filteredPosts: filteredPost
     });
     // this.fetchAllPost();
+  };
+
+  categoryAllPostOnClick = event => {
+    this.fetchAllPost();
   };
 
   dropDownSelect = event => {
@@ -288,7 +330,21 @@ class App extends Component {
   };
 
   searchHandleChange = input => {
-    console.log("input", input.target.value);
+    input.preventDefault();
+    this.setState({
+      searchInput: input.target.value
+    });
+
+    const lowercasedSearchInput = this.state.searchInput.toLowerCase();
+
+    const searchResults = this.state.posts.filter(post => {
+      let lowercasedPosts = post.title.toLowerCase();
+      return lowercasedPosts.includes(lowercasedSearchInput);
+    });
+
+    this.setState({
+      filteredPosts: searchResults
+    });
   };
 
   onePhotoClick = event => {
@@ -300,8 +356,8 @@ class App extends Component {
   };
 
   render() {
-    console.log("onePhoto:", this.state.onePhoto);
-    console.log("show photo:", this.state.showPhotoModal);
+    console.log("userPost:", this.state.userPost);
+    // console.log("show photo:", this.state.showPhotoModal);
     // console.log("modalIsOpen", this.state.modalIsOpen);
     return (
       <Fragment>
@@ -317,6 +373,7 @@ class App extends Component {
               path="/"
               render={() => (
                 <Home
+                  posts={this.state.posts}
                   filteredPosts={this.state.filteredPosts}
                   currentUser={this.state.current_user}
                   categories={this.state.categories}
@@ -332,6 +389,8 @@ class App extends Component {
                   onePhotoClick={this.onePhotoClick}
                   onePhoto={this.state.onePhoto}
                   show={this.state.showPhotoModal}
+                  categoryAllPostOnClick={this.categoryAllPostOnClick}
+                  cameras={this.state.cameras}
                 />
               )}
             />
@@ -343,11 +402,13 @@ class App extends Component {
                   handleChange={this.handleChange}
                   handleSubmit={this.handleSubmit}
                   accounts={this.state.accounts}
+                  show={this.state.signUpSuccess}
                 />
               )}
             />
             <Route
               path="/profile"
+              onePhotoClick={this.onePhotoClick}
               render={() => <Profile userPost={this.state.userPost} />}
             />
             <Route

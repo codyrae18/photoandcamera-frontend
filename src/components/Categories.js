@@ -1,45 +1,48 @@
 import React, { Component } from "react";
-import { Carousel, Row, Card } from "react-bootstrap";
+import { Row, Card, Col } from "react-bootstrap";
 
 class Categories extends Component {
   state = {};
   render() {
     // console.log("categories props", this.props.categories);
     return (
-      <Carousel>
-        {/* <Carousel.Item>
-          <Row>
-            {this.props.categories.map(category => (
-              <Image
-                variant="top"
-                id={category.id}
-                src={category.img_url}
-                thumbnail
-                onClick={this.props.categoryOnClick}
-              />
-            ))}
-          </Row>
-        </Carousel.Item> */}
-        <Carousel.Item>
-          <Row>
-            {this.props.categories.map(category => (
-              <Card key={category.id} className="category-card group">
+      <div>
+        <div className="categories-card">
+          <Row className="row-categories">
+            <Col md={1}>
+              <Card className="category-card group">
                 <Card.Img
                   variant="top"
-                  src={category.img_url}
+                  src="https://images.unsplash.com/photo-1573728795096-e91f4d01150a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
                   className="category-pic"
-                  id={category.id}
-                  onClick={this.props.categoryOnClick}
+                  onClick={this.props.categoryAllPostOnClick}
                 />
 
                 <Card.Body>
-                  <Card.Title>{category.title}</Card.Title>
+                  <Card.Title>All Photos</Card.Title>
                 </Card.Body>
               </Card>
+            </Col>
+            {this.props.categories.map(category => (
+              <Col md={1}>
+                <Card key={category.id} className="category-card group">
+                  <Card.Img
+                    variant="top"
+                    src={category.img_url}
+                    className="category-pic"
+                    id={category.id}
+                    onClick={this.props.categoryOnClick}
+                  />
+
+                  <Card.Body>
+                    <Card.Title>{category.title}</Card.Title>
+                  </Card.Body>
+                </Card>
+              </Col>
             ))}
           </Row>
-        </Carousel.Item>
-      </Carousel>
+        </div>
+      </div>
     );
   }
 }

@@ -31,6 +31,7 @@ class Home extends Component {
         <Categories
           categories={this.props.categories}
           categoryOnClick={this.props.categoryOnClick}
+          categoryAllPostOnClick={this.props.categoryAllPostOnClick}
         />
         <h1 className="body-header">Photos</h1>
         <HomePagePhotos
@@ -40,7 +41,7 @@ class Home extends Component {
           onePhotoClick={this.props.onePhotoClick}
         />
         <h1 className="body-header">Cameras</h1>
-        <Camera />
+        <Camera cameras={this.props.cameras} />
 
         <Modal
           {...this.props}

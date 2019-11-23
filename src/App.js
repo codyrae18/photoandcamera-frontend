@@ -355,8 +355,12 @@ class App extends Component {
     });
   };
 
+  deletePhoto = event => {
+    debugger;
+    console.log("delete");
+  };
   render() {
-    console.log("userPost:", this.state.userPost);
+    // console.log("userPost:", this.state.userPost);
     // console.log("show photo:", this.state.showPhotoModal);
     // console.log("modalIsOpen", this.state.modalIsOpen);
     return (
@@ -391,6 +395,7 @@ class App extends Component {
                   show={this.state.showPhotoModal}
                   categoryAllPostOnClick={this.categoryAllPostOnClick}
                   cameras={this.state.cameras}
+                  deletePhoto={this.deletePhoto}
                 />
               )}
             />

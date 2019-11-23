@@ -3,7 +3,7 @@ import Jumbo from "./Jumbo";
 import HomePagePhotos from "./HomePagePhotos";
 import Camera from "./Camera";
 import Categories from "./Categories";
-import { Alert, Modal, Card } from "react-bootstrap";
+import { Alert, Modal, Card, Button } from "react-bootstrap";
 class Home extends Component {
   render() {
     return (
@@ -56,18 +56,14 @@ class Home extends Component {
               padding: "0"
             }}
           >
-            <Card
-            // style={{
-            //   background: "none",
-            //   width: "750px",
-            //   height: "450",
-            //   margin: "auto"
-            // }}
-            >
+            <Card>
               <Card.Img
                 style={{ width: "500px", height: "750px", background: "none" }}
                 src={this.props.onePhoto}
               />
+              <Button variant="danger" onClick={this.props.deletePhoto}>
+                Delete
+              </Button>
             </Card>
           </Modal.Body>
         </Modal>

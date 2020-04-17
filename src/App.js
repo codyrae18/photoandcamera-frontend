@@ -13,11 +13,11 @@ class App extends Component {
     accounts: {
       username: "",
       password: "",
-      description: ""
+      description: "",
     },
     login: {
       username: "",
-      password: ""
+      password: "",
     },
     loggedin: false,
     error: "",
@@ -39,7 +39,7 @@ class App extends Component {
     onePhoto: "",
     showPhotoModal: false,
     signUpSuccess: false,
-    searchInput: ""
+    searchInput: "",
   };
 
   componentDidMount() {
@@ -53,81 +53,81 @@ class App extends Component {
     // }
   }
 
-  fetchAllPost = post => {
+  fetchAllPost = (post) => {
     let configObj = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt")
-      }
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
     };
     fetch(`http://localhost:3000/posts`, configObj)
-      .then(response => response.json())
-      .then(posts => {
+      .then((response) => response.json())
+      .then((posts) => {
         // console.log("this is all the photos", posts);
         this.setState({
           filteredPosts: posts,
-          posts: posts
+          posts: posts,
         });
       })
       .then(this.userImages);
   };
 
-  fetchAllCameras = post => {
+  fetchAllCameras = (post) => {
     let configObj = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt")
-      }
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
     };
     fetch(`http://localhost:3000/cameras`, configObj)
-      .then(response => response.json())
-      .then(camera => {
+      .then((response) => response.json())
+      .then((camera) => {
         this.setState({
-          cameras: camera
+          cameras: camera,
         });
       });
   };
 
-  fetchAllCategories = category => {
+  fetchAllCategories = (category) => {
     let configObj = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt")
-      }
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
     };
     fetch(`http://localhost:3000/categories`, configObj)
-      .then(response => response.json())
-      .then(categories => {
+      .then((response) => response.json())
+      .then((categories) => {
         console.log("this is all the category", categories);
         this.setState({
-          categories
+          categories,
         });
       });
   };
 
-  fetchCurrentUser = userId => {
+  fetchCurrentUser = (userId) => {
     let configObj = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt")
-      }
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
     };
 
     fetch(`http://localhost:3000/api/profile/${userId}`, configObj)
-      .then(response => response.json())
-      .then(response => {
+      .then((response) => response.json())
+      .then((response) => {
         console.log("thiis is the current user", response);
         this.setState({
-          currentUser: response
+          currentUser: response,
         });
       });
     this.userImages();
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     const { accounts } = this.state;
     // console.log("this is the stuff you have on form", event);
@@ -135,45 +135,46 @@ class App extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json"
+        Accept: "application/json",
       },
       body: JSON.stringify({
         user: {
           name: accounts.name,
           username: accounts.username,
-          password: accounts.password
+          password: accounts.password,
           // description: accounts.description
-        }
-      })
+        },
+      }),
     })
-      .then(r => r.json())
-      .then(r => {
+      .then((r) => r.json())
+      .then((r) => {
         console.log("successfully created an account", r);
         this.setState({
-          showPhotoModal: !this.state.signUpSuccess
+          showPhotoModal: !this.state.signUpSuccess,
         });
       });
+    this.props.history.push("/");
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     const accounts = { ...this.state.accounts };
     accounts[event.currentTarget.name] = event.currentTarget.value;
     this.setState({ accounts });
   };
 
-  handleLoginChange = event => {
+  handleLoginChange = (event) => {
     const login = { ...this.state.login };
     login[event.currentTarget.name] = event.currentTarget.value;
     this.setState({ login });
   };
 
-  titleHandleChange = event => {
+  titleHandleChange = (event) => {
     const postTitle = { ...this.state.postTitle };
     postTitle[event.currentTarget.name] = event.currentTarget.value;
     this.setState({ postTitle });
   };
 
-  handleClick = event => {
+  handleClick = (event) => {
     console.log("login", this.state.login);
 
     // console.log("thiis hits", event);
@@ -182,18 +183,18 @@ class App extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json"
+        Accept: "application/json",
       },
       body: JSON.stringify({
         user: {
           username: this.state.login.username,
-          password: this.state.login.password
-        }
-      })
+          password: this.state.login.password,
+        },
+      }),
     };
     fetch(`http://localhost:3000/api/login`, configObj)
-      .then(resp => resp.json())
-      .then(json => {
+      .then((resp) => resp.json())
+      .then((json) => {
         // console.log("json", json);
         if (!json.hasOwnProperty("error")) {
           window.localStorage.setItem("token", json.jwt);
@@ -206,73 +207,72 @@ class App extends Component {
           this.setState({ error: json.error });
         }
       })
-      .then(data => {
+      .then((data) => {
         const localUserId = localStorage.getItem("userId");
 
         if (localUserId) {
           this.fetchCurrentUser(localUserId);
         }
       })
-      .catch(error => console.log("username or password did not match"));
+      .catch((error) => console.log("username or password did not match"));
     this.setState({
       username: "",
-      password: ""
+      password: "",
     });
-
     this.props.history.push("/");
   };
 
   userImages = () => {
     let myUserId = parseInt(localStorage.getItem("userId"));
-    let filteredPost = this.state.posts.filter(post => {
+    let filteredPost = this.state.posts.filter((post) => {
       return post.user_id === myUserId;
     });
     console.log("filteredpost", filteredPost);
     this.setState({
-      userPost: filteredPost
+      userPost: filteredPost,
     });
   };
 
-  handleClickLogout = event => {
+  handleClickLogout = (event) => {
     event.preventDefault();
     localStorage.clear();
     this.userImages();
     this.props.history.push("/");
   };
 
-  fileSelectHandler = event => {
+  fileSelectHandler = (event) => {
     console.log(event.target.files[0]);
     this.setState({
-      images: event.target.files[0]
+      images: event.target.files[0],
     });
   };
 
-  categoryOnClick = event => {
+  categoryOnClick = (event) => {
     let filteredId = parseInt(event.target.id);
-    let filteredPost = this.state.posts.filter(post => {
+    let filteredPost = this.state.posts.filter((post) => {
       return post.category_id === filteredId;
     });
     this.setState({
       currentCategory: filteredId,
-      filteredPosts: filteredPost
+      filteredPosts: filteredPost,
     });
     // this.fetchAllPost();
   };
 
-  categoryAllPostOnClick = event => {
+  categoryAllPostOnClick = (event) => {
     this.fetchAllPost();
   };
 
-  dropDownSelect = event => {
+  dropDownSelect = (event) => {
     event.preventDefault();
     this.setState({
       currentDropDown: event.target.id,
-      dropDownPlaceHolder: event.target.innerText
+      dropDownPlaceHolder: event.target.innerText,
     });
     // debugger;
   };
 
-  fileUploadHandler = event => {
+  fileUploadHandler = (event) => {
     event.preventDefault();
     const currentId = localStorage.getItem("userId");
     const formPayLoad = new FormData();
@@ -290,72 +290,72 @@ class App extends Component {
     let configObj = {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt")
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: formPayLoad
+      body: formPayLoad,
     };
 
     fetch(`http://localhost:3000/posts`, configObj)
-      .then(res => res.json())
-      .then(images => {
+      .then((res) => res.json())
+      .then((images) => {
         // console.log("status >>>> ", images);
         this.setState({
-          images
+          images,
         });
         this.fetchAllPost();
       })
-      .catch(function() {
+      .catch(function () {
         console.log("error");
       });
   };
 
-  onDrop = acceptedFiles => {
+  onDrop = (acceptedFiles) => {
     this.setState({
-      images: acceptedFiles[0]
+      images: acceptedFiles[0],
     });
   };
 
-  toggleAlert = event => {
+  toggleAlert = (event) => {
     event.preventDefault();
 
     this.setState({
-      visible: !this.state.visible
+      visible: !this.state.visible,
     });
   };
 
   toggleModal = () => {
     this.setState({
-      modalIsOpen: !this.state.modalIsOpen
+      modalIsOpen: !this.state.modalIsOpen,
     });
   };
 
-  searchHandleChange = input => {
+  searchHandleChange = (input) => {
     input.preventDefault();
     this.setState({
-      searchInput: input.target.value
+      searchInput: input.target.value,
     });
 
     const lowercasedSearchInput = this.state.searchInput.toLowerCase();
 
-    const searchResults = this.state.posts.filter(post => {
+    const searchResults = this.state.posts.filter((post) => {
       let lowercasedPosts = post.title.toLowerCase();
       return lowercasedPosts.includes(lowercasedSearchInput);
     });
 
     this.setState({
-      filteredPosts: searchResults
+      filteredPosts: searchResults,
     });
   };
 
-  onePhotoClick = event => {
+  onePhotoClick = (event) => {
     // console.log("one photo click", event.target.currentSrc);
     this.setState({
       onePhoto: event.target.currentSrc,
-      showPhotoModal: !this.state.showPhotoModal
+      showPhotoModal: !this.state.showPhotoModal,
     });
   };
 
-  deletePhoto = event => {
+  deletePhoto = (event) => {
     debugger;
     console.log("delete");
   };
